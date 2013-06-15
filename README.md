@@ -6,4 +6,4 @@ This script can NOT replace the eye of a good typographer, but it will certainly
 
 The GREP-Code is tested and working, but i strongly recommend to save your File before running the script. (As the alert in the beginning will tell you to)
 
-In exception of the JSON-Object coded by Mr. Zirfas, all Code is written by Lukas Schiltknecht aka 37DMK.
+In exception of the JSON-Object coded by Mr. Morón Zirfas (https://github.com/fabiantheblind/auto-typo-adbe-id/blob/master/fabiantheblind/simple%20find%20change%20grep.jsx), all Code is written by Lukas Schiltknecht aka 37DMK.
