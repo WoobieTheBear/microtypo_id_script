@@ -211,220 +211,121 @@ var part_arr = [
 {"findWhat":"regex","changeTo":"newregex"},
 ]
 
+function singleChange(what, to, pos){
+    app.findGrepPreferences.findWhat = what;
+    if(to){
+        app.changeGrepPreferences.changeTo = to;
+    }
+    if(pos){
+        app.changeGrepPreferences.position = pos;
+    }
+    doc.changeGrep();
+    app.findGrepPreferences = NothingEnum.nothing;
+    app.changeGrepPreferences = NothingEnum.nothing;
+}
+
+function singleChangeText(what, to){
+    app.findTextPreferences.findWhat = what;
+    app.changeTextPreferences.changeTo = to;
+    doc.changeText();
+    app.findTextPreferences = NothingEnum.nothing;
+    app.changeTextPreferences = NothingEnum.nothing;
+}
+
+function forChangeLoop(arr){
+    for(var i=0; i < arr.length; i++){
+        singleChange(arr[i].findWhat, arr[i].changeTo);
+    }
+}
+
 if (achtelgeviert.checkedState) {
-    for(var i = 0;i < ztrenn_achtel_arr.length;i++){
-        app.findGrepPreferences.findWhat = ztrenn_achtel_arr[i].findWhat;
-        app.changeGrepPreferences.changeTo = ztrenn_achtel_arr[i].changeTo;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
-        };
+    forChangeLoop(ztrenn_achtel_arr);
     }
 
 if (apostroph.checkedState) {
-    for(var i = 0;i < ztrenn_apos_arr.length;i++){
-        app.findGrepPreferences.findWhat = ztrenn_apos_arr[i].findWhat;
-        app.changeGrepPreferences.changeTo = ztrenn_apos_arr[i].changeTo;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
-        };
+    forChangeLoop(ztrenn_apos_arr);
     }
 
 if (anfuehrung.checkedState) {
     if (schweiz.checkedState) {
-        for(var i = 0;i < anfuehr_ch_arr.length;i++){
-            app.findGrepPreferences.findWhat = anfuehr_ch_arr[i].findWhat;
-            app.changeGrepPreferences.changeTo = anfuehr_ch_arr[i].changeTo;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
-            };
+        forChangeLoop(anfuehr_ch_arr);
         }
     if (deutsch.checkedState) {
-        for(var i = 0;i < anfuehr_de_arr.length;i++){
-            app.findGrepPreferences.findWhat = anfuehr_de_arr[i].findWhat;
-            app.changeGrepPreferences.changeTo = anfuehr_de_arr[i].changeTo;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
-            };
+        forChangeLoop(anfuehr_de_arr);
         }
     if (englisch.checkedState) {
-        for(var i = 0;i < anfuehr_en_arr.length;i++){
-            app.findGrepPreferences.findWhat = anfuehr_en_arr[i].findWhat;
-            app.changeGrepPreferences.changeTo = anfuehr_en_arr[i].changeTo;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
-            };
+        forChangeLoop(anfuehr_en_arr);
         }
     }
 
 if (strichlaengen.checkedState) {
-    for(var i = 0;i < strich_arr.length;i++){
-        app.findGrepPreferences.findWhat = strich_arr[i].findWhat;
-        app.changeGrepPreferences.changeTo = strich_arr[i].changeTo;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
-        };    
+    forChangeLoop(strich_arr);
     }
 
 if (zeichensetzung.checkedState) {
-    for(var i = 0;i < zeichen_arr.length;i++){
-        app.findGrepPreferences.findWhat = zeichen_arr[i].findWhat;
-        app.changeGrepPreferences.changeTo = zeichen_arr[i].changeTo;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
-        };
+    forChangeLoop(zeichen_arr);
     if (englisch.checkedState){
         if (otf_hochgestellt.checkedState){
-            app.findGrepPreferences.findWhat = "(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th";
-            app.changeGrepPreferences.position = Position.otSuperscript;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
+            singleChange("(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th", 0, Position.otSuperscript);
             }
         else {
-            app.findGrepPreferences.findWhat = "(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th";
-            app.changeGrepPreferences.position = Position.superscript;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
+            singleChange("(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th", 0, Position.superscript);
             }
         }
-    if (schweiz.checkedState) {
-        app.findTextPreferences.findWhat = "ß";
-        app.changeTextPreferences.changeTo = "ss";
-        doc.changeText();
-        app.findTextPreferences = NothingEnum.nothing;
-        app.changeTextPreferences = NothingEnum.nothing;
-        };
     if (franzabstand.checkedState){
         if (otf_hochgestellt.checkedState){
-            app.findGrepPreferences.findWhat = "(?<=\\d)er|(?<=\\d)ème";
-            app.changeGrepPreferences.position = Position.otSuperscript;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
+            singleChange("(?<=\\d)er|(?<=\\d)ème", 0, Position.otSuperscript);
             };
         else {
-            app.findGrepPreferences.findWhat = "(?<=\\d)er|(?<=\\d)ème";
-            app.changeGrepPreferences.position = Position.superscript;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
+            singleChange("(?<=\\d)er|(?<=\\d)ème", 0, Position.superscript);
             };
         }
     if (otf_tiefgestellt.checkedState){
-        app.findGrepPreferences.findWhat = "(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6";
-        app.changeGrepPreferences.position = Position.otSubscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6", 0, Position.otSubscript);
         };
     else {
-        app.findGrepPreferences.findWhat = "(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6";
-        app.changeGrepPreferences.position = Position.subscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6", 0, Position.subscript);
         };
     if (otf_hochgestellt.checkedState){
-        app.findGrepPreferences.findWhat = "(?<=m)2|(?<=m)3";
-        app.changeGrepPreferences.position = Position.otSuperscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("(?<=m)2|(?<=m)3", 0, Position.otSuperscript);
         };
     else {
-        app.findGrepPreferences.findWhat = "(?<=m)2|(?<=m)3";
-        app.changeGrepPreferences.position = Position.superscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("(?<=m)2|(?<=m)3", 0, Position.superscript);
         };
     if (register_hochgestellt.checkedState){
-        app.findGrepPreferences.findWhat = "~r";
-        app.changeGrepPreferences.changeTo = "~|~r";
-        app.changeGrepPreferences.position = Position.superscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("~r", "~|~r", Position.superscript);
         };
     if (copyright_hochgestellt.checkedState){
-        app.findGrepPreferences.findWhat = "~2";
-        app.changeGrepPreferences.changeTo = "~|~2";
-        app.changeGrepPreferences.position = Position.superscript;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("~2", "~|~2", Position.superscript);
+        };
+    if (schweiz.checkedState) {
+        singleChangeText("ß", "ss");
         };
     }
 
 if (abstaende.checkedState) {
-    for(var i = 0;i < abst_arr.length;i++){
-        app.findGrepPreferences.findWhat = abst_arr[i].findWhat;
-        app.changeGrepPreferences.changeTo = abst_arr[i].changeTo;
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
-        };
+    forChangeLoop(abst_arr);
     if(daten.checkedState){
-        app.findGrepPreferences.findWhat = "(?<=\\d)[.] (?=\\d)|(?<=\\d)[.](?=\\d\\d[.])|(?<=\\d)[.](?=\\d[.])|(?<=\\d)[.](?=\\d\\d\\d\\d)";
-        app.changeGrepPreferences.changeTo = ".~%";
-        doc.changeGrep();
-        app.findGrepPreferences = NothingEnum.nothing;
-        app.changeGrepPreferences = NothingEnum.nothing;
+        singleChange("(?<=\\d)[.] (?=\\d)|(?<=\\d)[.](?=\\d\\d[.])|(?<=\\d)[.](?=\\d[.])|(?<=\\d)[.](?=\\d\\d\\d\\d)", ".~%");
         }
     if (schweizabstand.checkedState) {
-        for(var i = 0;i < abst_ch_arr.length;i++){
-            app.findGrepPreferences.findWhat = abst_ch_arr[i].findWhat;
-            app.changeGrepPreferences.changeTo = abst_ch_arr[i].changeTo;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
-            };
-        }
-    if (schweizabstand.checkedState) {
-        for(var i = 0;i < abst_fr_arr.length;i++){
-            app.findGrepPreferences.findWhat = abst_fr_arr[i].findWhat;
-            app.changeGrepPreferences.changeTo = abst_fr_arr[i].changeTo;
-            doc.changeGrep();
-            app.findGrepPreferences = NothingEnum.nothing;
-            app.changeGrepPreferences = NothingEnum.nothing;
-            };
-        }
+        forChangeLoop(abst_ch_arr);
     }
+    if (franzabstand.checkedState) {
+        forChangeLoop(abst_fr_arr);
+    }
+}
 
 if (wortabstand.checkedState) {
-    app.findGrepPreferences.findWhat = "    (?=[\\l\\u])|    (?=\\d)|    (?=[…])|    (?=[(])|    (?=\")|    (?=')|    (?=[*])|    (?=[†]|    (?=[|]))";
-    app.changeGrepPreferences.changeTo = "\\t";
-    doc.changeGrep();
-    app.findGrepPreferences = NothingEnum.nothing;
-    app.changeGrepPreferences = NothingEnum.nothing;
+    singleChange("    (?=[\\l\\u])|    (?=\\d)|    (?=[…])|    (?=[(])|    (?=\")|    (?=')|    (?=[*])|    (?=[†]|    (?=[|]))", "\\t");
     app.findChangeTextOptions.caseSensitive = false;
     app.findChangeTextOptions.wholeWord = false;
-    app.findTextPreferences.findWhat = "  ";
-    app.changeTextPreferences.changeTo = " ";
-    var i=0
-    do
-    {
-    doc.changeText();
-    i++;
+    for(i=0; i<31; i++){
+        singleChangeText("  ", " ");
     }
-    while (i<=30);
-    app.findTextPreferences = NothingEnum.nothing;
-    app.changeTextPreferences = NothingEnum.nothing;
-    app.findGrepPreferences.findWhat = " (?=\\t)|(?<=\\t) ";
-    app.changeGrepPreferences.changeTo = "";
-    doc.changeGrep();
-    app.findGrepPreferences = NothingEnum.nothing;
-    app.changeGrepPreferences = NothingEnum.nothing;
+    singleChange(" (?=\\t)|(?<=\\t) ", "");
     }
 
 alert("Änderungen vorgenommen" + "\r" + str);
 
-/* if you have any advice or questions about this feel free to cantact me to lukas.schiltknecht@gmx.ch */
+/* if you have any advice or questions about this feel free to contact me to lukas.schiltknecht@gmx.ch */
