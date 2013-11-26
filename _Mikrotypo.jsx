@@ -1,45 +1,42 @@
 /*
     author: @37dmk and @fabiantheblind
-    some repetitive changes you will want to do if typesetting big amounts of Text.
+    some repetitive changes you will want to do when typesetting big amounts of Text in inDesign.
 */
 
 
-alert("Bitte speichern Sie Ihr Dokument bevor Sie fortfahren.");
+var save = confirm("Haben Sie Ihr Dokument schon gespeichert?");
+if(!save){
+    alert("Bitte speichern Sie Ihr Dokument bevor Sie fortfahren, damit Sie gegebenenfalls zur letzten Version zurückkehren können.");
+    exit();
+}
 
 var myDialog;
 with(myDialog = app.dialogs.add({name:"Mikrotypografie"})){
     with(dialogColumns.add()){
         with(dialogRows.add()){
-            staticTexts.add({staticLabel:"Dieses Script ändert keine ausgeblendeten oder gesperrten Objekte"});
+            staticTexts.add({staticLabel:"Dieses Script ändert keine ausgeblendeten oder gesperrten Objekte."});
             staticTexts.add({staticLabel:" "});
             }
         with (dialogRows.add()) {
             with(dialogColumns.add()){
                 with(borderPanels.add()){
+                    staticTexts.add({staticLabel:"Sprachregion:"});
+                    with(dialogColumns.add()){
+                        var myRegion = dropdowns.add( { stringList: ["Schweiz", "Frankreich", "Deutschland", "England"], selectedIndex: 0 } );
+                    }
+                }
+                with(borderPanels.add()){
                     staticTexts.add({staticLabel:"Änderungen:"});
                     with(dialogColumns.add()){
                         var strichlaengen = checkboxControls.add({staticLabel:"Strichlängen", checkedState:true});
                         var wortabstand = checkboxControls.add({staticLabel:"Doppelte Wortabstände löschen", checkedState:true});
-                        staticTexts.add({staticLabel:"_____________________________________________"});
-                        staticTexts.add({staticLabel:" "});
-                        var anfuehrung = enablingGroups.add({staticLabel:"Anführungszeichen", checkedState:true});
-                        with(anfuehrung){
-                            with(anfuehrungsButtons = radiobuttonGroups.add()){
-                                var schweiz = radiobuttonControls.add({staticLabel:"schweizer/französische Guillemets", checkedState:true});
-                                var deutsch = radiobuttonControls.add({staticLabel:"deutsche Guillemets"});
-                                var englisch = radiobuttonControls.add({staticLabel:"englische Apostroph"});
-                                }
-                            }
+                        var anfuehrung = checkboxControls.add({staticLabel:"Anführungszeichen", checkedState:true});
                         staticTexts.add({staticLabel:"_____________________________________________"});
                         staticTexts.add({staticLabel:" "});
                         var abstaende = enablingGroups.add({staticLabel:"Abstände", checkedState:true});
                         with(abstaende){
                             with(dialogColumns.add()){
                                 var daten = checkboxControls.add({staticLabel:"Nummerisches Datum einbeziehen", checkedState:true});
-                                with(abstandButtons = radiobuttonGroups.add()){
-                                var schweizabstand = radiobuttonControls.add({staticLabel:"schweizer Interpunktionsabstände", checkedState:true});
-                                var franzabstand = radiobuttonControls.add({staticLabel:"französische Interpunktionsabstände"});
-                                }
                                 }
                             }
                         staticTexts.add({staticLabel:"_____________________________________________"});
@@ -48,7 +45,7 @@ with(myDialog = app.dialogs.add({name:"Mikrotypografie"})){
                         with(zahlentrennung){
                             with(dialogColumns.add()){
                                 with(zahlentrennungButtons = radiobuttonGroups.add()){
-                                var achtelgeviert = radiobuttonControls.add({staticLabel:"10 000           ", checkedState:true});
+                                var achtelgeviert = radiobuttonControls.add({staticLabel:"10 000            ", checkedState:true});
                                 var apostroph = radiobuttonControls.add({staticLabel:"10’000"});
                                 }
                                 }
@@ -60,7 +57,7 @@ with(myDialog = app.dialogs.add({name:"Mikrotypografie"})){
                             with(dialogColumns.add()){
                                 var otf_hochgestellt = checkboxControls.add({staticLabel:"OTF hochgestellt", checkedState:true});
                                 var otf_tiefgestellt = checkboxControls.add({staticLabel:"OTF tiefgestellt", checkedState:false});
-                                var register_hochgestellt = checkboxControls.add({staticLabel:"'registered' hochgestellt", checkedState:true});
+                                var register_hochgestellt = checkboxControls.add({staticLabel:"'registered' hochgestellt", checkedState:false});
                                 var copyright_hochgestellt = checkboxControls.add({staticLabel:"'copyright' hochgestellt", checkedState:true});
                                 }
                             }
@@ -71,8 +68,9 @@ with(myDialog = app.dialogs.add({name:"Mikrotypografie"})){
         } // ende Row
     }
 
+
 myReturn = myDialog.show();
-if (myReturn == true){
+if (myReturn){
     var checkedCategories = new Array();
     if (anfuehrung.checkedState) {checkedCategories.push("Anführungszeichen")};
     if (strichlaengen.checkedState) {checkedCategories.push("Strichlängen")};
@@ -84,13 +82,13 @@ if (myReturn == true){
     if (checkedCategories.length == 0) {
         alert("Bitte wählen Sie eine Änderung aus");
         }
-    }
-    else {
+    } else {
         myDialog.destroy()
         alert("Keine Änderungen vorgenommen");
         exit();
         }
 
+var regionChosen = myRegion.stringList[myRegion.selectedIndex];
 
 var doc = app.documents.item(0);
 app.findGrepPreferences = NothingEnum.nothing;
@@ -116,29 +114,38 @@ var ztrenn_apos_arr = [
 ]
 
 var anfuehr_ch_arr = [
-{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~|)","changeTo":"«~|"},
-{"findWhat":"(?<![ ]|[(]|[[]|~S|~||\\n|\\r)\"(?!~|)","changeTo":"~|»"},
+{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~<|~|)","changeTo":"«~|"},
+{"findWhat":"(?<![ ]|[(]|[[]|~S|~<|~||\\n|\\r)\"(?!~|)","changeTo":"~|»"},
 {"findWhat":"«~|(?!.)","changeTo":"~|»"},
-{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~|)","changeTo":"‹~|"},
-{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"~|›"},
+{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‹~|"},
+{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"~|›"},
+{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
+]
+
+var anfuehr_fr_arr = [
+{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~<|~|)","changeTo":"«~<"},
+{"findWhat":"(?<![ ]|[(]|[[]|~S|~<|~||\\n|\\r)\"(?!~|)","changeTo":"~<»"},
+{"findWhat":"«~|(?!.)","changeTo":"~<»"},
+{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‹~<"},
+{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"~<›"},
 {"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
 ]
 
 var anfuehr_de_arr = [
-{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~|)","changeTo":"»"},
-{"findWhat":"(?<![ ]|[(]|[[]|~S|~||\\n|\\r)\"(?!\\l|\\u)","changeTo":"«"},
+{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~<|~|)","changeTo":"»"},
+{"findWhat":"(?<![ ]|[(]|[[]|~S|~<|~||\\n|\\r)\"(?!\\l|\\u)","changeTo":"«"},
 {"findWhat":"»(?!.)","changeTo":"«"},
-{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~|)","changeTo":"›"},
-{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"‹"},
+{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"›"},
+{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"‹"},
 {"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
 ]
 
 var anfuehr_en_arr = [
-{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~|)","changeTo":"“"},
-{"findWhat":"(?<![ ]|[(]|[[]|~S|~||\\n|\\r)\"(?!\\l|\\u)","changeTo":"”"},
+{"findWhat":"\"(?![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[)]|]|~S|~<|~|)","changeTo":"“"},
+{"findWhat":"(?<![ ]|[(]|[[]|~S|~<|~||\\n|\\r)\"(?!\\l|\\u)","changeTo":"”"},
 {"findWhat":"“(?!.)","changeTo":"”"},
-{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~|)","changeTo":"‘"},
-{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"’"},
+{"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‘"},
+{"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"’"},
 {"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
 ]
 
@@ -190,7 +197,6 @@ var abst_arr = [
 {"findWhat":"[(](?!~|)","changeTo":"(~|"},
 {"findWhat":"(?!~|)[)]","changeTo":"~|)"},
 {"findWhat":"regex","changeTo":"newregex"},
-
 ]
 
 var abst_ch_arr = [
@@ -247,13 +253,16 @@ if (apostroph.checkedState) {
     }
 
 if (anfuehrung.checkedState) {
-    if (schweiz.checkedState) {
+    if (regionChosen == "Schweiz") {
         forChangeLoop(anfuehr_ch_arr);
         }
-    if (deutsch.checkedState) {
+    if (regionChosen == "Frankreich") {
+        forChangeLoop(anfuehr_fr_arr);
+        }
+    if (regionChosen == "Deutschland") {
         forChangeLoop(anfuehr_de_arr);
         }
-    if (englisch.checkedState) {
+    if (regionChosen == "England") {
         forChangeLoop(anfuehr_en_arr);
         }
     }
@@ -264,7 +273,7 @@ if (strichlaengen.checkedState) {
 
 if (zeichensetzung.checkedState) {
     forChangeLoop(zeichen_arr);
-    if (englisch.checkedState){
+    if (regionChosen == "England"){
         if (otf_hochgestellt.checkedState){
             singleChange("(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th", 0, Position.otSuperscript);
             }
@@ -272,7 +281,7 @@ if (zeichensetzung.checkedState) {
             singleChange("(?<=\\d)st|(?<=\\d)nd|(?<=\\d)rd|(?<=\\d)th", 0, Position.superscript);
             }
         }
-    if (franzabstand.checkedState){
+    if (regionChosen == "Frankreich"){
         if (otf_hochgestellt.checkedState){
             singleChange("(?<=\\d)er|(?<=\\d)ème", 0, Position.otSuperscript);
             };
@@ -298,7 +307,7 @@ if (zeichensetzung.checkedState) {
     if (copyright_hochgestellt.checkedState){
         singleChange("~2", "~|~2", Position.superscript);
         };
-    if (schweiz.checkedState) {
+    if (regionChosen == "Schweiz") {
         singleChangeText("ß", "ss");
         };
     }
@@ -308,11 +317,10 @@ if (abstaende.checkedState) {
     if(daten.checkedState){
         singleChange("(?<=\\d)[.] (?=\\d)|(?<=\\d)[.](?=\\d\\d[.])|(?<=\\d)[.](?=\\d[.])|(?<=\\d)[.](?=\\d\\d\\d\\d)", ".~%");
         }
-    if (schweizabstand.checkedState) {
-        forChangeLoop(abst_ch_arr);
-    }
-    if (franzabstand.checkedState) {
+    if (regionChosen == "Frankreich") {
         forChangeLoop(abst_fr_arr);
+    } else {
+        forChangeLoop(abst_ch_arr);
     }
 }
 
@@ -328,4 +336,4 @@ if (wortabstand.checkedState) {
 
 alert("Änderungen vorgenommen" + "\r" + str);
 
-/* if you have any advice or questions about this feel free to contact me to lukas.schiltknecht@gmx.ch */
+/* if you have any advice or questions about this feel free to contact me to lukas.schiltknecht@gmail.com */
