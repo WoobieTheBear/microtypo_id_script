@@ -168,7 +168,15 @@ var zeichen_arr = [
 
 var abst_arr = [
 {"findWhat":"(?<=\\d) %|(?<=\\d)%","changeTo":"~|%"},
-{"findWhat":"(?<=\\d) (?=m|dm|km|cm|kg)","changeTo":"~%"},
+{"findWhat":"(?<=\\d) (?=m|dm|km|cm|kg|Hz|GHz|V)","changeTo":"~%"},
+{"findWhat":"(?<=\\d)m","changeTo":"~%m"},
+{"findWhat":"(?<=\\d)dm","changeTo":"~%dm"},
+{"findWhat":"(?<=\\d)km","changeTo":"~%km"},
+{"findWhat":"(?<=\\d)cm","changeTo":"~%cm"},
+{"findWhat":"(?<=\\d)kg","changeTo":"~%kg"},
+{"findWhat":"(?<=\\d)Hz","changeTo":"~%Hz"},
+{"findWhat":"(?<=\\d)GHz","changeTo":"~%GHz"},
+{"findWhat":"(?<=\\d)V","changeTo":"~%V"},
 {"findWhat":"(?<=\\d)°(?=C)|(?<=\\d) °(?=C)|(?<=\\d)° (?=C)|(?<=\\d) ° (?=C)","changeTo":"~S°~|"},
 {"findWhat":"(?<=\\d)°(?=[ ])","changeTo":"~|°"},
 {"findWhat":"[*](?=\\d)|[*] (?=\\d)","changeTo":"*~|"},
