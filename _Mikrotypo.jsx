@@ -4,10 +4,13 @@
 */
 
 
-var save = confirm("Haben Sie Ihr Dokument schon gespeichert?");
-if(!save){
-    alert("Bitte speichern Sie Ihr Dokument bevor Sie fortfahren, damit Sie gegebenenfalls zur letzten Version zurückkehren können.");
-    exit();
+var save = confirm("Möchten Sie Ihr Dokument erst speichern?");
+if(save){
+    var doc = app.activeDocument;
+    var docName = doc.name;
+    var docPath = doc.filePath;
+    var saveName = docPath + '/' + docName + '.indd';
+    app.activeDocument.save( File(saveName) );
 }
 
 var myDialog;
