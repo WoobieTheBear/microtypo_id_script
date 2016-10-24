@@ -206,8 +206,7 @@ var abst_arr = [
 {"findWhat":"(?<!~|)[/](?!~|)","changeTo":"~|/~|"},
 {"findWhat":"(?<!~|)[\](?!~|)","changeTo":"~|\~|"},
 {"findWhat":"[(](?!~|)","changeTo":"(~|"},
-{"findWhat":"(?!~|)[)]","changeTo":"~|)"},
-{"findWhat":"regex","changeTo":"newregex"},
+{"findWhat":"(?!~|)[)]","changeTo":"~|)"}
 ]
 
 var abst_ch_arr = [
@@ -224,9 +223,10 @@ var abst_fr_arr = [
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[;]","changeTo":"~<;"},
 ]
 
+/* for more seperate changes copy paste the code below
 var part_arr = [
 {"findWhat":"regex","changeTo":"newregex"},
-]
+] */
 
 function singleChange(what, to, pos){
     app.findGrepPreferences.findWhat = what;
@@ -301,10 +301,10 @@ if (zeichensetzung.checkedState) {
             };
         }
     if (otf_tiefgestellt.checkedState){
-        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6", 0, Position.otSubscript);
+        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)", 0, Position.otSubscript);
         };
     else {
-        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)|(?<=O)2|(?<=O)4|(?<=O)6|(?<=C)6", 0, Position.subscript);
+        singleChange("(?<=H)2(?=O)|(?<=H)12(?=O)", 0, Position.subscript);
         };
     if (otf_hochgestellt.checkedState){
         singleChange("(?<=m)2|(?<=m)3", 0, Position.otSuperscript);
