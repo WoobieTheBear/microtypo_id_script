@@ -9,7 +9,7 @@ if(save){
     var doc = app.activeDocument;
     var docName = doc.name;
     var docPath = doc.filePath;
-    var saveName = docPath + '/' + docName + '.indd';
+    var saveName = docPath + '/' + docName;
     app.activeDocument.save( File(saveName) );
 }
 
@@ -107,13 +107,13 @@ app.findChangeGrepOptions.includeMasterPages = true;
 var ztrenn_achtel_arr = [
 {"findWhat":"(?<=\\d)'(?=\\d)","changeTo":"~<"},
 {"findWhat":"(?<!\\d\\d)~<(?=\\d\\d\\d )","changeTo":".-.-.-.*-ç.-.-."},
-{"findWhat":".-.-.-.*-ç.-.-.","changeTo":""},
+{"findWhat":".-.-.-.*-ç.-.-.","changeTo":""}
 ]
 
 var ztrenn_apos_arr = [
 {"findWhat":"(?<=\\d)'(?=\\d)|(?<=\\d)~<(?=\\d)","changeTo":"’"},
 {"findWhat":"(?<!\\d\\d)'(?=\\d\\d\\d )","changeTo":".-.-.-.*-ç.-.-."},
-{"findWhat":".-.-.-.*-ç.-.-.","changeTo":""},
+{"findWhat":".-.-.-.*-ç.-.-.","changeTo":""}
 ]
 
 var anfuehr_ch_arr = [
@@ -122,7 +122,7 @@ var anfuehr_ch_arr = [
 {"findWhat":"«~|(?!.)","changeTo":"~|»"},
 {"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‹~|"},
 {"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"~|›"},
-{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
+{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"}
 ]
 
 var anfuehr_fr_arr = [
@@ -131,7 +131,7 @@ var anfuehr_fr_arr = [
 {"findWhat":"«~|(?!.)","changeTo":"~<»"},
 {"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‹~<"},
 {"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"~<›"},
-{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
+{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"}
 ]
 
 var anfuehr_de_arr = [
@@ -140,7 +140,7 @@ var anfuehr_de_arr = [
 {"findWhat":"»(?!.)","changeTo":"«"},
 {"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"›"},
 {"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"‹"},
-{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
+{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"}
 ]
 
 var anfuehr_en_arr = [
@@ -149,7 +149,7 @@ var anfuehr_en_arr = [
 {"findWhat":"“(?!.)","changeTo":"”"},
 {"findWhat":"(?<![\\l\\u]|\\d)'(?! |\\r|\\n|\\t|\\.|\\,|\\;|\\:|\\!|\\?|-|\\(|\\[|~S|~<|~|)","changeTo":"‘"},
 {"findWhat":"(?<![ ]|\\r|\\n|\\t|[.]|[,]|[;]|[:]|[!]|[?]|-|[(]|[[]|~S|~<|~|)'(?!\\d|\\l|\\u|~|)","changeTo":"’"},
-{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"},
+{"findWhat":"(?<=[\\l\\u])'(?=\\l|\\u)","changeTo":"’"}
 ]
 
 var strich_arr = [
@@ -158,7 +158,7 @@ var strich_arr = [
 {"findWhat":"(?<=\\d)-(?=\\d)","changeTo":"~|-~|"},
 {"findWhat":" - ","changeTo":"~S~= "},
 {"findWhat":" ~= ","changeTo":"~S~= "},
-{"findWhat":"(?<=\\d[.])-","changeTo":"~="},
+{"findWhat":"(?<=\\d[.])-","changeTo":"~="}
 ]
 
 var zeichen_arr = [
@@ -166,7 +166,8 @@ var zeichen_arr = [
 {"findWhat":"1/2","changeTo":"½"},
 {"findWhat":"1/4","changeTo":"¼"},
 {"findWhat":"3/4","changeTo":"¾"},
-{"findWhat":"[.][.][.]","changeTo":"…"},
+{"findWhat":"+/-","changeTo":"±"},
+{"findWhat":"[.][.][.]","changeTo":"…"}
 ]
 
 var abst_arr = [
@@ -213,14 +214,14 @@ var abst_ch_arr = [
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[!]","changeTo":"~|!"},
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[?]","changeTo":"~|?"},
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[:](?!\\d)","changeTo":"~|:"},
-{"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[;]","changeTo":"~|;"},
+{"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[;]","changeTo":"~|;"}
 ]
 
 var abst_fr_arr = [
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[!]","changeTo":"~<!"},
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[?]","changeTo":"~<?"},
 {"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[:](?!\\d)","changeTo":"~<:"},
-{"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[;]","changeTo":"~<;"},
+{"findWhat":"(?<![ ]|~S|\\r|\\n|\\t|~<|~|)[;]","changeTo":"~<;"}
 ]
 
 /* for more seperate changes copy paste the code below
